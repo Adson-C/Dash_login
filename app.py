@@ -1,9 +1,11 @@
 import dash
-from sqlalchemy.sql import select
+import dash_bootstrap_components as dbc
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin
-import configparser
 import os
+from flask import Flask
 
-app = dash.Dash(__name__, external_stylesheets=[dbc.themes.QUARTZ])
+server = Flask(__name__)
+
+app = dash.Dash(__name__, server=server, external_stylesheets=[dbc.themes.QUARTZ])
 server = app.server

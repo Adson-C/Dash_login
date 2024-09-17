@@ -9,11 +9,10 @@ from app import *
 
 from pages import login, register, data
 
-
 app.layout = dbc.Container(children=[
     dbc.Row([
         dbc.Col([
-            dcc.Location(id='base-url', refresh=False),
+           dcc.Location(id='base-url', refresh=False),
             
             html.Div(id='page-content', style={'height': '100vh', 'display': 'flex', 'justifyContent': 'center'}),
         ]),

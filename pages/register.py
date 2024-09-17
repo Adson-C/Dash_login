@@ -17,7 +17,7 @@ card_style = {
 
 def render_layout():
     register = dbc.Card([
-                 htmç.Legend("Cadastra-se"),
+                 html.Legend("Cadastra-se"),
                 dbc.Input(id="user_register", placeholder="Username", type="text"),
                 dbc.Input(id="pwd_register", placeholder="Password", type="password"),
                 dbc.Input(id="email_register", placeholder="email", type="email"),
