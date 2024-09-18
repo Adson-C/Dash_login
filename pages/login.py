@@ -17,7 +17,7 @@ card_style = {
 
 def render_layout():
     login = dbc.Card([
-                 html.Legend("Login"),
+                html.Legend("Login"),
                 dbc.Input(id="user_login", placeholder="Username", type="text"),
                 dbc.Input(id="pwd_login", placeholder="Password", type="password"),
                 dbc.Button("Login", id="login_btn"),

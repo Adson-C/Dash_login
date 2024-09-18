@@ -28,6 +28,5 @@ def render_layout():
                     dcc.Link("faça Login", href="/login"),
                 ], style={"padding-top": "20px", "justify-content": "center", "display": "flex"})
 
-                 
     ], style=card_style)
     return register
