@@ -19,14 +19,15 @@ card_style = {
     'align-self': 'center'
 }
 
-def render_layout():
+def render_layout(message):
+    message = "Ocorreu algum erro durente o registro." if message == "error" else message
     register = dbc.Card([
                  html.Legend("Cadastra-se"),
                 dbc.Input(id="user_register", placeholder="Username", type="text"),
                 dbc.Input(id="pwd_register", placeholder="Password", type="password"),
                 dbc.Input(id="email_register", placeholder="email", type="email"),
                 dbc.Button("Registrar", id="register_btn"),
-                html.Span("", style={"text=align": "center"}),
+                html.Span(message, style={"text=align": "center"}),
                 html.Div([
                     html.Label("Ou", style={"margin-right": "5px"}),
                     dcc.Link("faça Login", href="/login"),
@@ -40,17 +41,7 @@ def render_layout():
     Output("register-state", "data"),
     Input("register_btn", "n_clicks"),
     
-    [State("user_register", "value"), State("pwd_register", "value"), State("email_register", "value")],
-)
-
-# def validate_email(email):
-#     # criar uma validação de email
-#     email_regex = r'^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$'
-#     return re.match(email_regex, email) is not None
-
-# def validate_password(pwd):
-#     # criar uma validação de senha
-#     return len(pwd) >= 6
+    [State("user_register", "value"), State("pwd_register", "value"), State("email_register", "value")],)
 
 def register(n_clicks, username, password, email):
     if n_clicks is None:
@@ -64,7 +55,5 @@ def register(n_clicks, username, password, email):
         conn.commit()
         conn.close()
         return ''
-        print("Certo")
     else:
-        print("errado")
         return 'Deu erro'
