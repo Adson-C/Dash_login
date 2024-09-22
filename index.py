@@ -4,10 +4,15 @@ from dash.dependencies import Input, Output, State
 import dash_bootstrap_components as dbc
 import pandas as pd
 import numpy as np
-
+np.bool_ = np.bool_
+from flask_login import current_user
 from app import *
 
 from pages import login, register, data
+
+login_manager = LoginManager()
+login_manager.init_app(server)
+login_manager.login_view = '/login'
 
 
 app.layout = dbc.Container(children=[
@@ -22,6 +27,12 @@ app.layout = dbc.Container(children=[
         ]),
     ])
 ], fluid=True)
+
+
+@login_manager.user_loader
+def load_user(user_id):
+    
+    return Users.query.get(int(user_id))
 
 
 @app.callback(Output('base-url', 'pathname'),
@@ -46,19 +57,24 @@ def render_page_contente(login_state, register_state):
                 return '/login'
             else:
                 return '/register'
+    else:
+        return '/'        
 
 @app.callback(Output('page-content', 'children'),
               Input('base-url', 'pathname'),
               [State('login-state', 'data'), State('register-state', 'data'),])
 def render_page_content(pathname, login_state, register_state):
     if pathname == '/login' or pathname == '/':
-        return login.render_layout()
+        return login.render_layout(login_state)
 
     if pathname == '/register':
         return register.render_layout(register_state)
 
     if pathname == '/data':
-        return data.render_layout("Adson")
+        if current_user.is_authenticated:
+            return data.render_layout(current_user.username)
+        else:
+            return login.render_layout(register_state)
 
 if __name__ == '__main__':
     app.run_server(port=8051, debug=True)

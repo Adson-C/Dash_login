@@ -37,5 +37,5 @@ server.config.update(
 
 db.init_app(server)
 
-class User(UserMixin, Users):
+class Users(UserMixin, Users):
     pass

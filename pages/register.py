@@ -7,7 +7,7 @@ import plotly.express as px
 from app import *
 
 from dash.exceptions import PreventUpdate
-from werkzeug.security import generate_password_hash, check_password_hash
+from werkzeug.security import generate_password_hash
 import re
 
 card_style = {
@@ -48,11 +48,11 @@ def register(n_clicks, username, password, email):
         raise PreventUpdate
     
     if username is not None and password is not None and email is not None:
-        hashed_password = generate_password_hash(password, method='pbkdf2:sha256')
+        hashed_password = generate_password_hash(password, method='sha256')
         ins = users_table.insert().values(username=username, password=hashed_password, email=email)
         conn= engine.connect()
         conn.execute(ins)
-        conn.commit()
+        # conn.commit()
         conn.close()
         return ''
     else:

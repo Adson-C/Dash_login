@@ -4,6 +4,8 @@ import dash_bootstrap_components as dbc
 from app import *
 
 import numpy as np
+np.bool_ = np.bool_
+# import numpy as np
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
@@ -22,8 +24,8 @@ card_style = {
     'padding-left': '25px',
 }
 
-df = pd.DataFrame(np.random.randn(100, 1), columns=["data"])
-fig = px.line(df, x=df.index, y="data", template="quartz")
+# df = pd.DataFrame(np.random.randn(100, 1), columns=["data"])
+# fig = px.line(df, x=df.index, y="data", template="quartz")
 
 
 # =========  Layout  =========== #
@@ -31,7 +33,7 @@ def render_layout(username):
     template = dbc.Card([
                 dcc.Location(id="data-url"),
                 html.Legend("Olá, {}!".format(username)),
-                dcc.Graph(figure=fig),
+                # dcc.Graph(figure=fig),
 
                 html.Div([
                     dbc.Button("Logout", id="logout_button"),
@@ -39,3 +41,17 @@ def render_layout(username):
 
             ], style=card_style, className="align-self-center")
     return template
+
+    
+@app.callback(
+    Output("data-url", "pathname"),
+    [Input("logout_button", "n_clicks")],)
+def successful(n_clicks):
+    if n_clicks == None:
+        raise PreventUpdate
+
+    if current_user.is_authenticated:
+        logout_user()
+        return "/login"
+    else:
+        return "/login"
